@@ -9,9 +9,9 @@ class Task extends React.Component {
     class_name += this.props.done ? ' task-success' : ' task-info';
   
     return (
-      <div className={class_name} onClick={this.props.onClickTask}>
+      <div className={class_name}>
         <span>{this.props.value}</span>
-        <i className="close" onClick={this.props.onClickClose}>&times;</i>
+        <i className="close">&times;</i>
       </div>
     )
   }
@@ -24,58 +24,36 @@ class App extends React.Component {
 
     this.state = {
       tasksArray: [
-        {value: 'To do list', done: true},
-        {value: 'Site E-comerce Wordpress', done: false},
-        {value: 'Site Ville Wordpress', done: false}
+        {value: 'Tâche 1', done: false},
       ],
       value: ''
     }
+
+   // this.addTask()
+
+    // Simuler l'événement click sur add
+     this.timerID = setInterval(
+      () => this.addTask(),
+      1000
+    );
   }
 
-  addTask(e) {
+
+  addTask() {
     
-    
-     if (addInput.value.length != 0) {
-      this.state.tasksArray.push({
-        value: addInput.value,
-        done: false
-      })
-      
-      
-      this.setState(state => ({
-        tasksArray: state.tasksArray
-      }));
-
-    }
-
-    e.preventDefault()
-  }
-
-  removeTask(i) {
-    this.state.tasksArray.splice(i, 1)
-    this.setState({
-      tasksArray: this.state.tasksArray
-    })
-  }
-
-  markDone(i) {
-    let tasksArray = this.state.tasksArray
-    let task = this.state.tasksArray[i]
-    tasksArray.splice(i, 1)
-    task.done = !task.done 
-    
-    task.done ? tasksArray.push(task) : tasksArray.unshift(task)
-
-
-    this.setState({
-      tasksArray: tasksArray
+    this.state.tasksArray.push({
+      value: "Tâche " +  new Date().getSeconds(),
+      done: false
     })
 
     
-  }
 
-  onChangeInput(e) {
-    // this.setState({value: e.target.value})
+    
+    this.setState(state => ({
+      tasksArray: state.tasksArray
+    }));
+
+   
   }
 
   render() {
@@ -85,8 +63,6 @@ class App extends React.Component {
           key={i}
           value={task.value}
           done={task.done}
-          onClickClose={this.removeTask.bind(this, i)}
-          onClickTask={this.markDone.bind(this, i)}
         />
       )
     })
@@ -95,13 +71,13 @@ class App extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-sm-6 col-sm-offset-3">
-            <h1> Quel est le plan pour aujourd'hui ?</h1>
+            <h1> Tâches à faire</h1>
             <form
               id="form-add"
               className="form-horizontal"
-              onSubmit={this.addTask.bind(this)}>
+            >
               <div className="input-group">
-                <input type="text" id="addInput" className="form-control" onChange={this.onChangeInput.bind(this)} placeholder="Description de la tâche..." />
+                <input type="text" id="addInput" className="form-control"  placeholder="Description de la tâche..." />
                 <div className="input-group-btn">
                   <button type="submit" className="btn btn-default">
                     <span className="glyphicon glyphicon-plus-sign"></span>
