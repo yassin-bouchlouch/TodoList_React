@@ -95,7 +95,7 @@ class App extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-sm-6 col-sm-offset-3">
-            <h1> Tâches à faire</h1>
+            <h1> Quel est le plan pour aujourd'hui ?</h1>
             <form
               id="form-add"
               className="form-horizontal"
