@@ -30,8 +30,6 @@ i { font-style: normal }
   );
   border-left-color:#ff590c
   ;
-  text-decoration: line-through;
-  font-style: italic;
 }
 .task-info {
   background: linear-gradient(
