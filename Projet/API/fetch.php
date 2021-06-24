@@ -1,5 +1,5 @@
 <?php
-$dbh = new PDO("mysql:host=localhost;dbname=todo","root","0000");
+include('db.php');
 $sql = " SELECT * FROM tasks ";
 $TaskQuery = $dbh->query($sql);
 $getTask = $TaskQuery->fetchAll(PDO::FETCH_ASSOC);

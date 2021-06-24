@@ -34,7 +34,7 @@ class App extends React.Component {
     
     // affichage de données par Ajax
 
-    $.getJSON( "API/showtasks.php", 
+    $.getJSON( "API/fetch.php", 
     function( data ) {
       this.setState({ taskList: data});
     }.bind(this))
