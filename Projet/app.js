@@ -4,7 +4,7 @@ class Task extends React.Component {
 
   render() {
       let class_name = 'task'
-      class_name += this.props.done ? ' task-success' : ' task-info';
+      class_name += this.props.done == 1 ? ' task-success' : ' task-info';
 
       return (
           <div className={class_name} onClick={this.props.onClickTask}>
@@ -79,9 +79,35 @@ class App extends React.Component {
 }
      
 
-     
-
-
+markDone(i,state) {
+  if(state!=1){
+    $.ajax({
+    url:"/API/edit.php",
+    method:"POST",
+    data:{
+        id : i,
+        done :1 ,
+    },
+    success:function(data) {
+      this.chargementDonnees()
+    }.bind(this)
+    })
+  }else{
+      $.ajax({
+        url:"/API/edit.php",
+        method:"POST",
+        data:{
+            id : i,
+            done :0 ,
+        },
+        success:function(data) {
+          this.chargementDonnees()}
+        .bind(this)
+        })
+      
+    }
+  // task.done ? tasksArray.push(task) : tasksArray.unshift(task)
+}
 
   render() {
    
@@ -92,6 +118,7 @@ class App extends React.Component {
           value={task.taskName}
           done={task.done}
           onClickClose={this.removeTask.bind(this, task.id)}
+          onClickTask={this.markDone.bind(this, task.id,task.done)}
         />
       )
     })
