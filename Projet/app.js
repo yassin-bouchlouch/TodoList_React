@@ -7,9 +7,9 @@ class Task extends React.Component {
       class_name += this.props.done ? ' task-success' : ' task-info';
 
       return (
-          <div className={class_name}>
+          <div className={class_name} onClick={this.props.onClickTask}>
               <span>{this.props.value}</span>
-              <i className="close">&times;</i>
+              <i className="close" onClick={this.props.onClickClose}>&times;</i>
           </div>
       )
   }
@@ -46,6 +46,43 @@ class App extends React.Component {
  
   }
 
+  
+  addTask(e) {
+
+    $.ajax({
+      url:"/API/add.php",
+      method:"POST",
+      data:{
+          taskName : addInput.value ,
+      },
+      success:function(data) {
+        this.chargementDonnees()
+        console.log(data)
+    }.bind(this)
+    })
+    e.preventDefault()
+  }
+
+  removeTask(i) {
+    $.ajax({
+      url:"/API/remove.php",
+      method:"POST",
+      data:{
+        id :i
+      },
+      success:function(data) {
+        $(this).parent().remove();
+        this.chargementDonnees()
+      }.bind(this)
+    })
+    
+}
+     
+
+     
+
+
+
   render() {
    
     let tasksArrayMap = this.state.taskList.map((task, i) => {
@@ -54,6 +91,7 @@ class App extends React.Component {
           key={i}
           value={task.taskName}
           done={task.done}
+          onClickClose={this.removeTask.bind(this, task.id)}
         />
       )
     })
@@ -65,7 +103,7 @@ class App extends React.Component {
             <h1> Quel est le plan pour aujourd'hui ?</h1>
             <form
               id="form-add"
-              className="form-horizontal">
+              className="form-horizontal" onSubmit={this.addTask.bind(this)}>
               <div className="input-group">
                 <input type="text" id="addInput" className="form-control"  placeholder="Enterz une task..." />
                 <div className="input-group-btn">
